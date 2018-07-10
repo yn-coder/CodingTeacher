@@ -12,6 +12,8 @@ authomatic = Authomatic(CONFIG, 'your secret string', report_errors=False)
 @app.route('/')
 def index():
         all_files = {}
+        response = make_response()
+
         WerkzeugAdapter(
             request,
             response),

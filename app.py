@@ -12,7 +12,10 @@ authomatic = Authomatic(CONFIG, 'your secret string', report_errors=False)
 @app.route('/')
 def index():
         all_files = {}
-        u = authomatic.credentials()
+        WerkzeugAdapter(
+            request,
+            response),
+        u = request.remote_user
         return render_template('index.html', notebooks = all_files, u = u )
 
 

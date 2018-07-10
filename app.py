@@ -12,7 +12,7 @@ authomatic = Authomatic(CONFIG, 'your secret string', report_errors=False)
 @app.route('/')
 def index():
         all_files = {}
-        return render_template('base.html', notebooks = all_files )
+        return render_template('index.html', notebooks = all_files )
 
 
 @app.route('/login/<provider_name>/', methods=['GET', 'POST'])

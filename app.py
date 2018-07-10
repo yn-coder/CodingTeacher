@@ -14,12 +14,19 @@ def index():
         all_files = {}
         response = make_response()
 
-        WerkzeugAdapter(
-            request,
-            response),
-        u = request.remote_user
-        return render_template('index.html', notebooks = all_files, u = u )
+        result = authomatic.login(
+            WerkzeugAdapter(
+                request,
+                response),
+            'wl')
 
+        # If there is no LoginResult object, the login procedure is still pending.
+        if result:
+            if result.user:
+                # We need to update the user to get more info.
+                result.user.update()
+
+        return render_template('index.html', notebooks = all_files, u = result )
 
 @app.route('/login/<provider_name>/', methods=['GET', 'POST'])
 def login(provider_name):
@@ -51,6 +58,6 @@ def login(provider_name):
 
 if __name__ == '__main__':
     #app.run(debug=True)
-  
+
     port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=True)    
+    app.run(host='0.0.0.0', port=port, debug=True)

@@ -12,21 +12,7 @@ authomatic = Authomatic(CONFIG, 'your secret string', report_errors=False)
 @app.route('/')
 def index():
         all_files = {}
-        response = make_response()
-
-        result = authomatic.login(
-            WerkzeugAdapter(
-                request,
-                response),
-            'wl')
-
-        # If there is no LoginResult object, the login procedure is still pending.
-        if result:
-            if result.user:
-                # We need to update the user to get more info.
-                result.user.update()
-
-        return render_template('index.html', notebooks = all_files, u = result )
+        return render_template('index.html', notebooks = all_files )
 
 @app.route('/login/<provider_name>/', methods=['GET', 'POST'])
 def login(provider_name):

@@ -1,12 +1,54 @@
 {# base.html #}
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Authomatic Flask Example</title>
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-    <hr>
-    <p>0003</p>
-    </body>
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="author" content="YN">
+		<meta name="description" content="Simple Azure navigator.">
+		<title>Simple Azure navigator.</title>
+		<link rel="icon" href="https://milligram.github.io/images/icon.png">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
+		<link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+		<link rel="stylesheet" href="https://milligram.github.io/styles/main.css">
+	</head>
+	<body>
+
+		<main class="wrapper">
+
+			<nav class="navigation">
+				<section class="container">
+					<a class="navigation-title" href="#">
+						
+						&nbsp;
+						<h1 class="title">Home</h1>
+					</a>
+				</section>
+			</nav>
+
+			<section class="container" id="notebook">
+				<h5 class="title">Your <a href="https://notebooks.azure.com/">Azure notebooks</a></h5>
+
+              
+			
+                    {% block body %}{% endblock %}
+
+            </section>
+
+
+
+			<footer class="footer">
+				<section class="container">					
+                    <hr>
+                    <p>v 0003</p>
+				</section>
+			</footer>
+
+		</main>
+
+		<script src="https://milligram.github.io/scripts/main.js"></script>
+
+	</body>
 </html>

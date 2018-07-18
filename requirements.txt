@@ -2,3 +2,7 @@ gunicorn
 flask
 authomatic
 Flask-SQLAlchemy
+alembic
+Flask-Migrate
+Flask-Script
+psycopg2

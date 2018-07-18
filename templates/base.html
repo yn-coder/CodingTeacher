@@ -1,50 +1,48 @@
 {# base.html #}
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta name="author" content="YN">
-		<meta name="description" content="Simple Azure navigator.">
-		<title>Simple Azure navigator.</title>
-		<link rel="icon" href="https://milligram.github.io/images/icon.png">
-		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.css">
-		<link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
-		<link rel="stylesheet" href="https://milligram.github.io/styles/main.css">
-	</head>
-	<body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://unpkg.com/papercss@1.5.1/dist/paper.min.css">
+  <meta name="description" content="Simple Azure navigator.">
+  <title>Simple Azure navigator.</title>
+</head>
+<body>
+<nav class="border fixed split-nav">
+  <div class="nav-brand">
+    <h3><a href="/">Home</a></h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <button>
+    <label for="collapsible1">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </label>
+    </button>
+    <div class="collapsible-body">
+      <ul class="inline">
+					<li><a href="/help/">Help</a></li>
+					<li><a href="/help/q/">Questions</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  <div class="paper container">
 
-		<main class="wrapper">
-
-			<nav class="navigation">
-				<section class="container">
-					<a class="navigation-title" href="/"><h1 class="title">Home</h1></a>
-					<a class="navigation-title">|</a>
-					<a class="navigation-title" href="/help/"><h2 class="title">Help</h2></a>
-					<a class="navigation-title">|</a>
-					<a class="navigation-title" href="/help/q/"><h2 class="title">Questions</h2></a>
-				</section>
-			</nav>
-
-			<section class="container" id="notebook">
-				<h5 class="title">Your <a href="https://notebooks.azure.com/">Azure notebooks</a></h5>
+				<h5>Your <a href="https://notebooks.azure.com/">Azure notebooks</a></h5>
 
 
 
                     {% block body %}{% endblock %}
-            </section>
-			<footer class="footer">
-				<section class="container">
                     <hr>
                     <p>v 0006</p>
-				</section>
-			</footer>
 
-		</main>
-
-		<script src="https://milligram.github.io/scripts/main.js"></script>
-
-	</body>
+    
+    
+  </div>
+</body>
 </html>

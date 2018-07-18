@@ -1,0 +1,23 @@
+{# index.html #}
+{% extends "base.html" %}
+{% block body %}
+
+
+<h2>On-line help for Azure Notebooks</h2>
+
+<table>
+<tr>
+<th>Date time</th>
+<th>Question</th>
+<th>File name</th>
+</tr>
+{% for q in questions %}
+<tr>
+<td>{{q.dt}}</td>
+<td>{{q.description}}</td>
+<td>{{q.file_name}}</td>
+</tr>
+{% endfor%}
+</table>
+
+{% endblock %} 

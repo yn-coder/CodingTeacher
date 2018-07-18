@@ -24,16 +24,6 @@ class Question(db.Model):
     def __repr__(self):
         return '<file_name %r>' % self.file_name
 
-
-from flask_script import Manager
-from flask_migrate import Migrate, MigrateCommand
-
-migrate = Migrate(app, db)
-
-manager = Manager(app)
-manager.add_command('db', MigrateCommand)
-
-
 # Instantiate Authomatic.
 authomatic = Authomatic(CONFIG, 'your secret string', report_errors=False)
 
@@ -107,7 +97,6 @@ def post_new_q():
 
 if __name__ == '__main__':
     #app.run(debug=True)
-    manager.run()
     
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=True)

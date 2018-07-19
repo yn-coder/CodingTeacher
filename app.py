@@ -103,7 +103,7 @@ def post_new_q():
 @app.route('/help/resource/<res_name>', methods=['GET'])
 def help_resource():
     if res_name:
-       resp = make_response( render_template( '\resource\' + res_name + '.html' ) )
+       resp = make_response( render_template( '/resource/' + res_name + '.html' ) )
     else:    
         resp = make_response("<pre>You should view this exciting video!</pre>")
     # CORS

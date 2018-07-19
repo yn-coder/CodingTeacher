@@ -101,11 +101,11 @@ def post_new_q():
     return resp
 
 @app.route('/help/resource/<res_name>', methods=['GET'])
-def help_resource():
-    if res_name:
+def help_resource(res_name):
+    try:
        resp = make_response( render_template( '/resource/' + res_name + '.html' ) )
-    else:    
-        resp = make_response("<pre>You should view this exciting video!</pre>")
+    except:
+        resp = make_response("<pre>No special resource is exists!</pre>")
     # CORS
     resp.headers['Access-Control-Allow-Origin'] = '*'
 

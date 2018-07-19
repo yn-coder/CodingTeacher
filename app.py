@@ -10,8 +10,10 @@ from config_template import CONFIG
 
 app = Flask(__name__)
 
+import os
+
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////test.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://jhdfqqxuqginrg:55ff701545de58ebefc541b69e4005b786773e081025ae847f64869e55a67f78@ec2-50-16-241-91.compute-1.amazonaws.com:5432/d6mel3jak26bco'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 
 db = SQLAlchemy(app)
 

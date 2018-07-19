@@ -100,9 +100,12 @@ def post_new_q():
 
     return resp
 
-@app.route('/help/resource/', methods=['GET'])
+@app.route('/help/resource/<res_name>', methods=['GET'])
 def help_resource():
-    resp = make_response("<pre>You should view this exciting video!</pre>")
+    if res_name:
+       resp = make_response( render_template( '\resource\' + res_name + '.html' ) )
+    else:    
+        resp = make_response("<pre>You should view this exciting video!</pre>")
     # CORS
     resp.headers['Access-Control-Allow-Origin'] = '*'
 

@@ -94,7 +94,7 @@ def post_new_q():
                 "Unable to get URL. Please make sure it's valid and try again."
             )
 
-    resp = make_response('ok')
+    resp = make_response("123")
     # CORS
     resp.headers['Access-Control-Allow-Origin'] = '*'
 

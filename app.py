@@ -9,22 +9,28 @@ from datetime import datetime
 from config_template import CONFIG
 
 app = Flask(__name__)
-
 import os
-
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////test.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
+DATABASE_URL = os.environ.get('DATABASE_URL')
+test_sql_url = 'sqlite:////test.db'
+if os.environ.get('DATABASE_URL'):
+    app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = test_sql_url
 
 db = SQLAlchemy(app)
 
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     file_name = db.Column(db.String(255), nullable=False)
+    file_url = db.Column(db.String(255), nullable=False)
     description = db.Column(db.String(255), nullable=True)
     dt = db.Column( db.DateTime, nullable=False, default = datetime.utcnow )
 
     def __repr__(self):
         return '<file_name %r>' % self.file_name
+
+if app.config['SQLALCHEMY_DATABASE_URI'] == test_sql_url:
+    db.create_all()
 
 # Instantiate Authomatic.
 authomatic = Authomatic(CONFIG, 'your secret string', report_errors=False)
@@ -79,10 +85,7 @@ def post_new_q():
         # get url that the user has entered
         try:
             di = request.form.to_dict()
-            print( di['file_name'] )
-            print( di['description'] )
-            nq = Question(file_name = di['file_name'], description = di['description'] )
-            print(nq)
+            nq = Question(file_name = di['file_name'], file_url = di['file_url'], description = di['description'] )
             db.session.add(nq)
             db.session.commit()
         except:
@@ -91,14 +94,13 @@ def post_new_q():
                 "Unable to get URL. Please make sure it's valid and try again."
             )
 
-    resp = make_response("123")
+    resp = make_response('ok')
     # CORS
     resp.headers['Access-Control-Allow-Origin'] = '*'
 
     return resp
 
 if __name__ == '__main__':
-    #app.run(debug=True)
-    
+
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=True)

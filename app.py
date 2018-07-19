@@ -100,6 +100,14 @@ def post_new_q():
 
     return resp
 
+@app.route('/help/resource/', methods=['GET'])
+def help_resource():
+    resp = make_response("<pre>You should view this exciting video!</pre>")
+    # CORS
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+
+    return resp
+
 if __name__ == '__main__':
 
     port = int(os.environ.get('PORT', 5000))

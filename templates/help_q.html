@@ -14,7 +14,7 @@
 </tr>
 {% for q in questions %}
 <tr>
-<td>{{q.dt}}</td>
+<td>{{q.dt.strftime('%Y-%m-%d %H:%M:%S')}}</td>
 <td>{{q.description}}</td>
 <td>{{q.file_name}}</td>
 <td>{% if q.file_url %}<a href="{{q.file_url}}">{{q.file_url}}</a>{% endif %}</td>

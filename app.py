@@ -103,7 +103,7 @@ def post_new_q():
 @app.route('/help/resource/<res_name>', methods=['GET'])
 def help_resource(res_name):
     try:
-       resp = make_response( render_template( '/resource/' + res_name + '.html' ) )
+       resp = make_response( render_template( '/resource/' + res_name.lower() + '.html' ) )
     except:
         resp = make_response("<pre>No special resource is exists!</pre>")
     # CORS

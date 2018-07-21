@@ -12,10 +12,13 @@ app = Flask(__name__)
 import os
 DATABASE_URL = os.environ.get('DATABASE_URL')
 test_sql_url = 'sqlite:////test.db'
-if os.environ.get('DATABASE_URL'):
+
+if DATABASE_URL:
     app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = test_sql_url
+
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 

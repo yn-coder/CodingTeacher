@@ -36,3 +36,9 @@ def test_help_page(client):
 
     rv = client.get('/help/')
     assert b'First.ipynb' in rv.data
+
+def test_help_page_first_ipynb(client):
+    """Tests for help page 'First.ipynb'."""
+
+    rv = client.get('/help/resource/first.ipynb')
+    assert b'First.ipynb book' in rv.data

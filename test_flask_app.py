@@ -25,8 +25,14 @@ def client():
     #os.unlink(app.config['DATABASE'])
     #os.unlink(app.config['SQLALCHEMY_DATABASE_URI'])
 
-def test_empty_db(client):
-    """Start with a blank database."""
+def test_home_page(client):
+    """Tests for home page."""
 
     rv = client.get('/')
     assert b'Workflow' in rv.data
+    
+ def test_help_page(client):
+    """Tests for help page."""
+
+    rv = client.get('/')
+    assert b'First.ipynb' in rv.data

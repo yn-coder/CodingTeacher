@@ -30,7 +30,7 @@ def test_home_page(client):
 
     rv = client.get('/')
     assert b'Workflow' in rv.data
-    
+
  def test_help_page(client):
     """Tests for help page."""
 

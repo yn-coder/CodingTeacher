@@ -31,8 +31,8 @@ def test_home_page(client):
     rv = client.get('/')
     assert b'Workflow' in rv.data
 
- def test_help_page(client):
+def test_help_page(client):
     """Tests for help page."""
 
-    rv = client.get('/')
+    rv = client.get('/help/')
     assert b'First.ipynb' in rv.data

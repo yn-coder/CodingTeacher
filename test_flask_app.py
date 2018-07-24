@@ -48,3 +48,21 @@ def test_help_page_special(client):
 
     rv = client.get('/help/resource/more/special')
     assert b'Special page in subfolder' in rv.data
+
+def test_help_pagezero(client):
+    """Tests for help page if page name is empty."""
+
+    rv = client.get('/help/resource/')
+    assert rv.status == '404 NOT FOUND'
+
+def test_help_no_page(client):
+    """Tests for help page if no page is exist."""
+
+    rv = client.get('/help/resource/no_such_page/')
+    assert b'No special resource is exists!' in rv.data
+
+def test_help_page_with_double_dots(client):
+    """Tests for help page if page name is empty."""
+
+    rv = client.get('/help/resource/../index/')
+    assert b'No special resource is exists!' in rv.data

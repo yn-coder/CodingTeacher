@@ -55,3 +55,8 @@ def test_help_pagezero(client):
     rv = client.get('/help/resource/')
     assert rv.status == '404 NOT FOUND'
 
+def test_help_no_page(client):
+    """Tests for help page if page name is empty."""
+
+    rv = client.get('/help/resource/no_such_page/')
+    assert b'No special resource is exists!' in rv.data

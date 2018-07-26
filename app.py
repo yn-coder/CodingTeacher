@@ -103,10 +103,10 @@ def post_new_q():
 
     return resp
 
-@app.route('/help/resource/<path:res_name>', methods=['GET'])
+@app.route('/help/resource/<path:res_name>', methods=['GET']) # arg from url will redirects to template
 def help_resource(res_name):
     try:
-       resp = make_response( render_template( '/resource/' + res_name.lower() + '.html' ) )
+       resp = make_response( render_template( '/resource/' + res_name.lower() + '.html', args=request.args.to_dict() ) )
     except:
         resp = make_response("<pre>No special resource is exists!</pre>")
     # CORS

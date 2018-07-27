@@ -20,4 +20,10 @@
   </li>
 </ul>
 
+<h3>How to write the resource</h3>
+
+<p>Each resource help page is a HTML file in <code>template/resource</code> folder. File name should be in the <code>help_page_name.html</code> form. Our Jupyter extension call for help page depend on current Jupyter notebook name with file extension, so for <code>First.ipynb</code> notebook help file should be named as <code>first.ipynb.html</code>.</p>
+
+<p>Cell code and other parameters from extension is sended to server as <code>?cell_code=start_section</code> form, and pulled to html template for rendering with <a href="http://jinja.pocoo.org/">Jinja</a> template engine as dictionary. Any correct Jinga tags is allowed.</p>
+
 {% endblock %} 

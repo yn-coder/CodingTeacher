@@ -1,0 +1,14 @@
+{# index.html #}
+{% extends "base.html" %}
+{% block body %}
+
+<h2>Users</h2>
+
+<ul>
+{%for u in users%}
+<li>{{u}}</li>
+{%endfor%}
+</ul>
+
+{% endblock %} 
+

@@ -57,7 +57,7 @@ authomatic = Authomatic(CONFIG, 'your secret string', report_errors=False)
 def load_user(uid):
     try:
         return User.get(User.id == uid)
-    except User.DoesNotExist:
+    except:
         return None
 
 @login_manager.unauthorized_handler

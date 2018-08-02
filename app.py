@@ -72,6 +72,10 @@ def index():
 @app.route('/help/')
 def help():
     return render_template('help.html' )
+    
+@app.route('/users/')
+def users():
+    return render_template('users.html', users = User.query.all() )
 
 @app.route("/login")
 @app.route('/login/<provider_name>/', methods=['GET', 'POST'])

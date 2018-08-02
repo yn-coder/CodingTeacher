@@ -42,12 +42,12 @@ authomatic = Authomatic(CONFIG, 'your secret string', report_errors=False)
 
 @app.route('/')
 def index():
-        all_files = {}
-        return render_template('index.html', notebooks = all_files )
+    all_files = {}
+    return render_template('index.html', notebooks = all_files )
 
 @app.route('/help/')
 def help():
-        return render_template('help.html' )
+    return render_template('help.html' )
 
 @app.route('/login/<provider_name>/', methods=['GET', 'POST'])
 def login(provider_name):
@@ -76,6 +76,10 @@ def login(provider_name):
 
     # Don't forget to return the response.
     return response
+    
+@app.route('/profile/')
+def profile():
+    return render_template('profile.html' )
 
 @app.route('/help/q/', methods=['GET'])
 def q():

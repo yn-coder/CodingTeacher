@@ -97,7 +97,14 @@ def login(provider_name):
             result.user.update()
 
             # model
-            user, created = User.get_or_create(auth_provider=result.user.provider.id, auth_id=result.user.id)
+            #user, created = User.get_or_create(auth_provider=result.user.provider.id, auth_id=result.user.id)
+            user = load_user(result.user.id)
+            if user:
+                pass
+            else:
+                user = User( auth_provider=result.user.provider.id, auth_id=result.user.id )
+                db.session.add(user)
+                db.session.commit()
 
             # flask-login
             login_user(user, remember=True)

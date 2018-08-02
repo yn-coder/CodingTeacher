@@ -106,7 +106,7 @@ def login(provider_name):
             if user:
                 pass
             else:
-                user = User( auth_provider=result.user.provider.id, auth_id=result.user.id )
+                user = User( auth_provider=result.user.provider.id, auth_id=result.user.id, name=result.user.email )
                 db.session.add(user)
                 db.session.commit()
 

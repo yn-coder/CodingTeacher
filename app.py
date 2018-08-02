@@ -1,4 +1,6 @@
-from flask import Flask, render_template, request, make_response, session
+from flask import Flask, render_template, request, make_response, session,abort, redirect, url_for
+from flask_login import LoginManager, UserMixin, login_required, login_user, logout_user, current_user
+
 from authomatic.adapters import WerkzeugAdapter
 from authomatic import Authomatic
 #import json
@@ -24,6 +26,17 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+# Super quick user model with peewee
+class User(UserMixin, db.Model):
+    __tablename__ = 'users'
+    id = db.Column( db.Integer, primary_key = True )
+    auth_provider = db.Column(db.String(255), nullable=False)
+    auth_id = db.Column(db.String(255), nullable=False)
+    name = db.Column(db.String(255), nullable=False)
+
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     file_name = db.Column(db.String(255), nullable=False)
@@ -40,6 +53,17 @@ if app.config['SQLALCHEMY_DATABASE_URI'] == test_sql_url:
 # Instantiate Authomatic.
 authomatic = Authomatic(CONFIG, 'your secret string', report_errors=False)
 
+@login_manager.user_loader
+def load_user(uid):
+    try:
+        return User.get(User.id == uid)
+    except User.DoesNotExist:
+        return None
+
+@login_manager.unauthorized_handler
+def unauthorized():
+    return redirect(url_for("choose_provider"))
+
 @app.route('/')
 def index():
     all_files = {}
@@ -49,6 +73,7 @@ def index():
 def help():
     return render_template('help.html' )
 
+@app.route("/login")
 @app.route('/login/<provider_name>/', methods=['GET', 'POST'])
 def login(provider_name):
     """
@@ -71,15 +96,34 @@ def login(provider_name):
             # We need to update the user to get more info.
             result.user.update()
 
+            # model
+            user, created = User.get_or_create(auth_provider=result.user.provider.id, auth_id=result.user.id)
+
+            # flask-login
+            login_user(user, remember=True)
+
         # The rest happens inside the template.
         return render_template('login.html', result=result)
 
     # Don't forget to return the response.
     return response
-    
+
 @app.route('/profile/')
+@login_required
 def profile():
     return render_template('profile.html' )
+
+@app.route("/choose_provider")
+def choose_provider():
+    if current_user.is_authenticated:
+        return redirect(url_for("index"))
+
+    return redirect(url_for("login") + '/wl' )
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for("choose_provider"))
 
 @app.route('/help/q/', methods=['GET'])
 def q():

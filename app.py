@@ -62,6 +62,18 @@ def load_user(arg_auth_id):
 
 @login_manager.unauthorized_handler
 def unauthorized():
+    response = make_response()
+    if current_user.is_authenticated:
+        return response
+
+    if 'user_id' in session:
+        user_id = session['user_id']
+        if user_id:
+            user = User.query.get( user_id )
+            if user:
+                login_user(user, remember=True)
+                return response
+    
     return redirect(url_for("choose_provider"))
 
 @app.route('/')

@@ -3,6 +3,7 @@ from werkzeug.contrib.fixers import ProxyFix
 from flask_dance.contrib.azure import make_azure_blueprint, azure
 
 app = Flask(__name__)
+
 app.wsgi_app = ProxyFix(app.wsgi_app)
 app.secret_key = "supersekrit"
 blueprint = make_azure_blueprint(

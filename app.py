@@ -72,7 +72,7 @@ def index():
 @app.route('/help/')
 def help():
     return render_template('help.html' )
-    
+
 @app.route('/users/')
 def users():
     return render_template('users.html', users = User.query.all() )
@@ -128,6 +128,14 @@ def profile():
 def choose_provider():
     if current_user.is_authenticated:
         return redirect(url_for("index"))
+
+    if 'user_id' in session:
+        user_id = session['user_id']
+        if user_id > 0:
+            user = User.query.get( user_id )
+            if user:
+                login_user(user, remember=True)
+                return redirect(url_for("index"))
 
     return redirect(url_for("login") + '/wl' )
 

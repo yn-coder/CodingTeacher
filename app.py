@@ -54,9 +54,9 @@ if app.config['SQLALCHEMY_DATABASE_URI'] == test_sql_url:
 authomatic = Authomatic(CONFIG, 'your secret string', report_errors=False)
 
 @login_manager.user_loader
-def load_user(uid):
+def load_user(arg_auth_id):
     try:
-        return User.get(User.id == uid)
+        return User.get(User.auth_id == arg_auth_id)
     except:
         return None
 

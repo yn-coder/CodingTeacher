@@ -3,11 +3,11 @@ import os
 
 import pytest
 
+from app import app, db, User
+
 @pytest.fixture
 def client():
     os.environ['DATABASE_URL' ] = 'sqlite:///../test_ct_db.db'
-
-    from app import app, db
 
     app.config['TESTING'] = True
     client = app.test_client()
@@ -57,3 +57,6 @@ def test_help_page_with_double_dots(client):
 
     rv = client.get('/help/resource/../index/')
     assert b'No special resource is exists!' in rv.data
+
+def test_get_empty_user_list(client):
+    assert User.query.count() == 0

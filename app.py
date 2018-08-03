@@ -56,7 +56,7 @@ authomatic = Authomatic(CONFIG, 'your secret string', report_errors=False)
 @login_manager.user_loader
 def load_user(arg_auth_id):
     try:
-        return User.query.filter(User.auth_id == arg_auth_id).first()
+        return User.query.filter_by(auth_id = arg_auth_id).first()
     except:
         return None
 

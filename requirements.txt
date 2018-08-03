@@ -1,9 +1,5 @@
 gunicorn 
 flask
-flask-login
-authomatic
 Flask-SQLAlchemy
-alembic
-Flask-Migrate
-Flask-Script
+Flask-Dance[sqla]
 psycopg2

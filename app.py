@@ -131,7 +131,7 @@ def choose_provider():
 
     if 'user_id' in session:
         user_id = session['user_id']
-        if user_id > 0:
+        if user_id:
             user = User.query.get( user_id )
             if user:
                 login_user(user, remember=True)

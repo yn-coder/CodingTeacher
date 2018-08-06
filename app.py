@@ -10,9 +10,9 @@ blueprint = make_azure_blueprint(
     client_id="e9bf7a9a-13bc-4db8-af9d-f6626ec9705f",
     client_secret="ekbvXCNU187!golTCD36[#|",
     #scope=["profile email User.Read openid"]
-    scope=["User.Read profile openid email"]
+    #scope=["User.Read profile openid email"]
+    scope=["User.Read"]
     
-    #redirect_url = 'login/wl/',
 )
 app.register_blueprint(blueprint, url_prefix="/login")
 
@@ -36,7 +36,7 @@ def index():
 
 @app.route("/t/")
 def t():
-    return '912322sd'
+    return 'f912322sd'
 
 if __name__ == '__main__':
 

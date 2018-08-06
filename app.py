@@ -27,6 +27,7 @@ def index():
         print('2')
         assert resp.ok
         print('3')
+        print(resp.json())
         return "You are {mail} on Azure AD".format(mail=resp.json()["mail"])
         print('4')
     except Exception:
@@ -36,7 +37,7 @@ def index():
 
 @app.route("/t/")
 def t():
-    return 'f912322sd'
+    return '1'
 
 if __name__ == '__main__':
 

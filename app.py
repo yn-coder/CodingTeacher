@@ -28,11 +28,11 @@ def p():
     if not azure.authorized:
         return 'not'
     else:
-        return '_' + azure.token
+        return '_' + azure.token["expires_at"]
 
 @app.route("/t/")
 def t():
-    return '0000000001'
+    return '0000000002'
 
 if __name__ == '__main__':
 

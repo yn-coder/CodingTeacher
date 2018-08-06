@@ -17,6 +17,8 @@ blueprint = make_azure_blueprint(
 )
 app.register_blueprint(blueprint, url_prefix="/login")
 
+import os
+
 DATABASE_URL = os.environ.get('DATABASE_URL')
 test_sql_url = 'sqlite:////test.db'
 

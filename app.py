@@ -28,6 +28,7 @@ else:
     app.config['SQLALCHEMY_DATABASE_URI'] = test_sql_url
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)

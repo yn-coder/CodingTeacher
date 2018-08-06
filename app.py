@@ -10,7 +10,7 @@ blueprint = make_azure_blueprint(
     client_id="e9bf7a9a-13bc-4db8-af9d-f6626ec9705f",
     client_secret="ekbvXCNU187!golTCD36[#|",
     #scope=["profile email User.Read openid"]
-    scope=["User.Read,profile,openid,email"]
+    scope=["User.Read","profile","openid","email"]
     #scope=["User.Read"]
     
 )

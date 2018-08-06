@@ -17,9 +17,9 @@ app.register_blueprint(blueprint, url_prefix="/login")
 def index():
     if not azure.authorized:
         return redirect(url_for("azure.login"))
-    resp = azure.get("/user")
+    resp = azure.get("/v1.0/me")
     assert resp.ok
-    return "You are @{login} on Azure".format(login=resp.json()["login"])
+    return "You are {mail} on Azure AD".format(mail=resp.json()["mail"])
 
 @app.route("/t/")
 def t():

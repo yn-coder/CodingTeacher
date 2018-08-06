@@ -2,4 +2,18 @@
 
 <br>
 
+{%for u in users %}
+{{u.id}}{{u.name}}
+{%endfor%}
+<hr>
+
 {{oauths}}
+
+<br>
+{%for oa in oauths %}
+{{oa.id}}
+{{oa.provider}}
+{{oa.created_at}}
+{{oa.token}}
+{{oa.user_id}}
+{%endfor%}

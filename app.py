@@ -28,7 +28,7 @@ def p():
     if not azure.authorized:
         return 'not'
     else:
-        return '_' + azure.name
+        return '_' + azure.token
 
 @app.route("/t/")
 def t():

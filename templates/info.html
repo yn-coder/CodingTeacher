@@ -10,7 +10,14 @@
 {{oauths}}
 
 <br>
-<table>
+<table border="1">
+<tr>
+<th>oa.id</th>
+<th>oa.provider</th>
+<th>oa.created_at</th>
+<th>oa.token</th>
+<th>oa.user_id</th>
+</tr>
 {%for oa in oauths %}
 <tr>
 <td>{{oa.id}}</td>

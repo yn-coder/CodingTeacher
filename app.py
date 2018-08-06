@@ -23,6 +23,13 @@ def index():
     print(resp.json())
     return "You are {name} and {mail} on Azure AD".format(name=resp.json()["displayName"] ,mail=resp.json()["userPrincipalName"])
 
+@app.route("/p/")
+def p():
+    if not azure.authorized:
+        return 'not'
+    else:
+        return '_' + azure
+
 @app.route("/t/")
 def t():
     return '0000000001'

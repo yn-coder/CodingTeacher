@@ -21,9 +21,13 @@ def index():
         return redirect(url_for("azure.login"))
     
     try:
+        print('1')
         resp = azure.get("/v1.0/me")
+        print('2')
         assert resp.ok
+        print('3')
         return "You are {mail} on Azure AD".format(mail=resp.json()["mail"])
+        print('4')
     except Exception:
         return "exc" + Exception
     else:

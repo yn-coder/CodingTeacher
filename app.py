@@ -9,8 +9,8 @@ app.secret_key = "supersekrit"
 blueprint = make_azure_blueprint(
     client_id="e9bf7a9a-13bc-4db8-af9d-f6626ec9705f",
     client_secret="ekbvXCNU187!golTCD36[#|",
-    #scope=["profile email User.Read openid"]
-    scope=["User.Read"]
+    scope=["profile email User.Read openid"]
+    
     #redirect_url = 'login/wl/',
 )
 app.register_blueprint(blueprint, url_prefix="/login")
@@ -31,7 +31,7 @@ def index():
 
 @app.route("/t/")
 def t():
-    return '12322s'
+    return '12322sd'
 
 if __name__ == '__main__':
 

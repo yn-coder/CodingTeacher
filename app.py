@@ -9,10 +9,7 @@ app.secret_key = "supersekrit"
 blueprint = make_azure_blueprint(
     client_id="e9bf7a9a-13bc-4db8-af9d-f6626ec9705f",
     client_secret="ekbvXCNU187!golTCD36[#|",
-    #scope=["profile email User.Read openid"]
     scope=["User.Read","profile","openid","email"]
-    #scope=["User.Read"]
-    
 )
 app.register_blueprint(blueprint, url_prefix="/login")
 
@@ -20,24 +17,15 @@ app.register_blueprint(blueprint, url_prefix="/login")
 def index():
     if not azure.authorized:
         return redirect(url_for("azure.login"))
-    
-    try:
-        print('1')
-        resp = azure.get("/v1.0/me")
-        print('2')
-        assert resp.ok
-        print('3')
-        print(resp.json())
-        return "You are {mail} on Azure AD".format(mail=resp.json()["userPrincipalName"])
-        print('4')
-    except Exception:
-        return "exc" + Exception
-    else:
-        return "some fail"
+
+    resp = azure.get("/v1.0/me")
+    assert resp.ok
+    print(resp.json())
+    return "You are {name} and {mail} on Azure AD".format(name=resp.json()["displayName"] ,mail=resp.json()["userPrincipalName"])
 
 @app.route("/t/")
 def t():
-    return '1'
+    return '0000000001'
 
 if __name__ == '__main__':
 

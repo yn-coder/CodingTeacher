@@ -28,7 +28,7 @@ def index():
         assert resp.ok
         print('3')
         print(resp.json())
-        return "You are {mail} on Azure AD".format(mail=resp.json()["mail"])
+        return "You are {mail} on Azure AD".format(mail=resp.json()["userPrincipalName"])
         print('4')
     except Exception:
         return "exc" + Exception

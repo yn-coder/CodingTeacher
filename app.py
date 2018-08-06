@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect, url_for, render_template
 from werkzeug.contrib.fixers import ProxyFix
 from flask_dance.contrib.azure import make_azure_blueprint, azure
 
@@ -59,6 +59,10 @@ def p():
         return 'not'
     else:
         return '_' + str(azure.token["expires_at"])
+        
+@app.route("/info/")
+def info():
+    return render_template('info.html', users = User.query.all(), oauths = OAuth.query.all() )
 
 @app.route("/t/")
 def t():

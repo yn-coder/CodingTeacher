@@ -1,9 +1,19 @@
-from flask import Flask, redirect, url_for, render_template
+import sys
+
+from flask import Flask, redirect, url_for, flash, render_template
 from werkzeug.contrib.fixers import ProxyFix
+
 from flask_dance.contrib.azure import make_azure_blueprint, azure
+from flask_dance.consumer.backend.sqla import OAuthConsumerMixin, SQLAlchemyBackend
+from flask_dance.consumer import oauth_authorized, oauth_error
 
 from flask_sqlalchemy import SQLAlchemy
-from flask_dance.consumer.backend.sqla import OAuthConsumerMixin, SQLAlchemyBackend
+from sqlalchemy.orm.exc import NoResultFound
+
+from flask_login import (
+    LoginManager, UserMixin, current_user,
+    login_required, login_user, logout_user
+)
 
 app = Flask(__name__)
 
@@ -41,7 +51,17 @@ class OAuth(OAuthConsumerMixin, db.Model):
 if app.config['SQLALCHEMY_DATABASE_URI'] == test_sql_url:
     db.create_all()
 
-blueprint.backend = SQLAlchemyBackend(OAuth, db.session)
+# setup login manager
+login_manager = LoginManager()
+login_manager.login_view = 'azure.login'
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))    
+    
+blueprint.backend = SQLAlchemyBackend(OAuth, db.session, user=current_user)
+
+login_manager.init_app(app)
 
 @app.route("/")
 def index():

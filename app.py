@@ -23,7 +23,7 @@ def index():
         resp = azure.get("/v1.0/me")
         assert resp.ok
         return "You are {mail} on Azure AD".format(mail=resp.json()["mail"])
-    except Exception
+    except Exception:
         return "exc" + Exception
 
 @app.route("/t/")

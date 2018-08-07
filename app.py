@@ -135,6 +135,7 @@ def index():
     # except (InvalidGrantError, TokenExpiredError) as e:  # or maybe any OAuth2Error
         # return redirect(url_for("azure.login"))
 
+@login_required
 @app.route("/p/")
 def p():
     if not azure.authorized:
@@ -148,7 +149,7 @@ def info():
 
 @app.route("/t/")
 def t():
-    return '0000000012'
+    return '0000000013'
 
 @app.route("/logout")
 @login_required

@@ -28,7 +28,13 @@
           <li><a href="https://notebooks.azure.com/" target="_blank">Your Azure notebooks</a></li>
           <li><a href="/help/">Help</a></li>
           <li><a href="/users/">Users</a></li>
-          <li><a href="/profile/">Profile</a></li>
+
+          {% if current_user.is_authenticated %}
+          <li><a href="/profile/">{{current_user}} {{current_user.name}} profile</a></li>!
+
+          {% else %}
+          <li><a href="{{ url_for("azure.login") }}">Log in</a></li>
+          {% endif %}
           <li><a href="/help/q/">Questions</a></li>
       </ul>
     </div>

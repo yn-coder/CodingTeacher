@@ -57,6 +57,7 @@ class Question(db.Model):
     file_url = db.Column(db.String(255), nullable=False)
     description = db.Column(db.String(255), nullable=True)
     dt = db.Column( db.DateTime, nullable=False, default = datetime.utcnow )
+    user = db.relationship(User, nullable=True)
 
     def __repr__(self):
         return '<file_name %r>' % self.file_name

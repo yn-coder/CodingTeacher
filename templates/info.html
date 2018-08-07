@@ -35,7 +35,7 @@
 <hr>
 
 {% if current_user.is_authenticated %}
-  You are logged in as {{ current_user.username }}!
+  You are logged in as {{ current_user.username }}_{{current_user}}!
   <a href="{{ url_for("logout") }}">Log out</a>
 {% else %}
   You are not logged in.

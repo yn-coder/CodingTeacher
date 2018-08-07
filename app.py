@@ -73,9 +73,6 @@ def azure_logged_in(blueprint, token):
     if not token:
         flash("Failed to log in with Azure.", category="error")
         return False
-
-    
-    return "You are {name} and {mail} on Azure AD".format(name=resp.json()["displayName"] ,mail=resp.json()["userPrincipalName"])
     
     resp = blueprint.session.get("/v1.0/me")
     if not resp.ok:
@@ -147,7 +144,7 @@ def info():
 
 @app.route("/t/")
 def t():
-    return '0000000007'
+    return '0000000008'
 
 if __name__ == '__main__':
 

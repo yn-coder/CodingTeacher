@@ -126,10 +126,13 @@ def index():
     if not azure.authorized:
         return redirect(url_for("azure.login"))
 
-    resp = azure.get("/v1.0/me")
-    assert resp.ok
-    print(resp.json())
-    return "You are {name} and {mail} on Azure AD".format(name=resp.json()["displayName"] ,mail=resp.json()["userPrincipalName"])
+    try:
+        resp = azure.get("/v1.0/me")
+        assert resp.ok
+        print(resp.json())
+        return "You are {name} and {mail} on Azure AD".format(name=resp.json()["displayName"] ,mail=resp.json()["userPrincipalName"])
+    except (InvalidGrantError, TokenExpiredError) as e:  # or maybe any OAuth2Error
+        return redirect(url_for("azure.login"))
 
 @app.route("/p/")
 def p():

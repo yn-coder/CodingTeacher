@@ -15,16 +15,18 @@
 <th>oa.id</th>
 <th>oa.provider</th>
 <th>oa.created_at</th>
-<th>oa.token</th>
 <th>oa.user_id</th>
+<th>oa.provider_user_id</th>
+<th>oa.token</th>
 </tr>
 {%for oa in oauths %}
 <tr>
 <td>{{oa.id}}</td>
 <td>{{oa.provider}}</td>
 <td>{{oa.created_at}}</td>
-<td>{{oa.token}}</td>
 <td>{{oa.user_id}}</td>
+<td>{{oa.provider_user_id}}</td>
+<td>{{oa.token}}</td>
 </tr>
 {%endfor%}
 </table>

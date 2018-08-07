@@ -6,4 +6,5 @@ alembic
 Flask-Migrate
 Flask-Script
 Flask-Dance[sqla]
+blinker
 psycopg2

@@ -43,10 +43,12 @@ db = SQLAlchemy(app)
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=True)
+    email = db.Column(db.String(255), nullable=True)
 
 class OAuth(OAuthConsumerMixin, db.Model):
+    provider_user_id = db.Column(db.String(256), unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey(User.id))
-    user = db.relationship(User)
+    user = db.relationship(User)    
 
 if app.config['SQLALCHEMY_DATABASE_URI'] == test_sql_url:
     db.create_all()
@@ -58,10 +60,68 @@ login_manager.login_view = 'azure.login'
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))    
+
+db.init_app(app)
+login_manager.init_app(app)
     
 blueprint.backend = SQLAlchemyBackend(OAuth, db.session, user=current_user)
 
-login_manager.init_app(app)
+# create/login local user on successful OAuth login
+@oauth_authorized.connect_via(blueprint)
+def azure_logged_in(blueprint, token):
+    if not token:
+        flash("Failed to log in with Azure.", category="error")
+        return False
+
+    
+    return "You are {name} and {mail} on Azure AD".format(name=resp.json()["displayName"] ,mail=resp.json()["userPrincipalName"])
+    
+    resp = blueprint.session.get("/v1.0/me")
+    if not resp.ok:
+        msg = "Failed to fetch user info from Azure."
+        flash(msg, category="error")
+        return False
+
+    azure_info = resp.json()
+    azure_user_id = str(azure_info["id"])
+
+    # Find this OAuth token in the database, or create it
+    query = OAuth.query.filter_by(
+        provider=blueprint.name,
+        provider_user_id=azure_user_id,
+    )
+    try:
+        oauth = query.one()
+    except NoResultFound:
+        oauth = OAuth(
+            provider=blueprint.name,
+            provider_user_id=azure_user_id,
+            token=token,
+        )
+
+    if oauth.user:
+        login_user(oauth.user)
+        flash("Successfully signed in with Azure.")
+
+    else:
+        # Create a new local user account for this user
+        user = User(
+            # Remember that `email` can be None, if the user declines
+            # to publish their email address on GitHub!
+            email=azure_info["userPrincipalName"],
+            name=azure_info["displayName"],
+        )
+        # Associate the new local user account with the OAuth token
+        oauth.user = user
+        # Save and commit our database models
+        db.session.add_all([user, oauth])
+        db.session.commit()
+        # Log in the new local user account
+        login_user(user)
+        flash("Successfully signed in with Azure.")
+
+    # Disable Flask-Dance's default behavior for saving the OAuth token
+    return False
 
 @app.route("/")
 def index():
@@ -86,7 +146,7 @@ def info():
 
 @app.route("/t/")
 def t():
-    return '0000000006'
+    return '0000000007'
 
 if __name__ == '__main__':
 

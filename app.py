@@ -48,7 +48,7 @@ class User(db.Model, UserMixin):
 class OAuth(OAuthConsumerMixin, db.Model):
     provider_user_id = db.Column(db.String(256), unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey(User.id))
-    user = db.relationship(User)    
+    user = db.relationship(User)
 
 if app.config['SQLALCHEMY_DATABASE_URI'] == test_sql_url:
     db.create_all()
@@ -59,12 +59,12 @@ login_manager.login_view = 'azure.login'
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))    
+    return User.query.get(int(user_id))
 
 db.init_app(app)
 login_manager.init_app(app)
 
-# https://stackoverflow.com/questions/47643448/flask-dance-cannot-get-oauth-token-without-an-associated-user    
+# https://stackoverflow.com/questions/47643448/flask-dance-cannot-get-oauth-token-without-an-associated-user
 blueprint.backend = SQLAlchemyBackend(OAuth, db.session, user=current_user, user_required=False )
 
 # create/login local user on successful OAuth login
@@ -73,7 +73,7 @@ def azure_logged_in(blueprint, token):
     if not token:
         flash("Failed to log in with Azure.", category="error")
         return False
-    
+
     resp = blueprint.session.get("/v1.0/me")
     if not resp.ok:
         msg = "Failed to fetch user info from Azure."
@@ -137,17 +137,16 @@ def p():
         return 'not'
     else:
         return '_' + str(azure.token["expires_at"])
-        
+
 @app.route("/info/")
 def info():
     return render_template('info.html', users = User.query.all(), oauths = OAuth.query.all() )
 
 @app.route("/t/")
 def t():
-    return '0000000009'
+    return '0000000010'
 
 if __name__ == '__main__':
 
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port, debug=True)
-

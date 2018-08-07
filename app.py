@@ -57,7 +57,8 @@ class Question(db.Model):
     file_url = db.Column(db.String(255), nullable=False)
     description = db.Column(db.String(255), nullable=True)
     dt = db.Column( db.DateTime, nullable=False, default = datetime.utcnow )
-    user = db.relationship(User, nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=True)
+    user = db.relationship(User)
 
     def __repr__(self):
         return '<file_name %r>' % self.file_name
@@ -207,7 +208,7 @@ def post_new_q():
 @app.route('/help/resource/<path:res_name>', methods=['GET']) # arg from url will redirects to template
 def help_resource(res_name):
     try:
-        resp = make_response( render_template( '/resource/' + res_name.lower() + '.html', args=request.args.to_dict() ) )        
+        resp = make_response( render_template( '/resource/' + res_name.lower() + '.html', args=request.args.to_dict() ) )
     except:
         resp = make_response("<pre>No special resource is exists!</pre>")
     # CORS

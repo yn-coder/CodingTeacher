@@ -1,6 +1,6 @@
 import sys
 
-from flask import Flask, redirect, url_for, flash, render_template
+from flask import Flask, redirect, url_for, flash, render_template, make_response, request
 from werkzeug.contrib.fixers import ProxyFix
 
 from flask_dance.contrib.azure import make_azure_blueprint, azure
@@ -9,6 +9,7 @@ from flask_dance.consumer import oauth_authorized, oauth_error
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm.exc import NoResultFound
+from datetime import datetime
 
 from flask_login import (
     LoginManager, UserMixin, current_user,
@@ -49,6 +50,16 @@ class OAuth(OAuthConsumerMixin, db.Model):
     provider_user_id = db.Column(db.String(256), unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey(User.id))
     user = db.relationship(User)
+
+class Question(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    file_name = db.Column(db.String(255), nullable=False)
+    file_url = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.String(255), nullable=True)
+    dt = db.Column( db.DateTime, nullable=False, default = datetime.utcnow )
+
+    def __repr__(self):
+        return '<file_name %r>' % self.file_name
 
 if app.config['SQLALCHEMY_DATABASE_URI'] == test_sql_url:
     db.create_all()
@@ -123,8 +134,8 @@ def azure_logged_in(blueprint, token):
 
 @app.route("/")
 def index():
-    return "index"
-    
+    return render_template('index.html' )
+
     # if not azure.authorized:
         # return redirect(url_for("azure.login"))
 
@@ -146,16 +157,62 @@ def p():
 def info():
     return render_template('info.html', users = User.query.all(), oauths = OAuth.query.all() )
 
-@app.route("/t/")
-def t():
-    return '0000000013'
+@app.route('/help/')
+def help():
+    return render_template('help.html' )
+
+@app.route('/users/')
+def users():
+    return render_template('users.html', users = User.query.all() )
+
+@app.route('/profile/')
+def profile():
+    return render_template('profile.html' )
 
 @app.route("/logout")
-@login_required
 def logout():
     logout_user()
     flash("You have logged out")
     return redirect(url_for("index"))
+
+@app.route('/help/q/', methods=['GET'])
+def q():
+    return render_template('help_q.html', questions = Question.query.all() )
+
+@app.route('/help/post_new_q/', methods=['POST'])
+def post_new_q():
+    errors = []
+    results = {}
+
+    if request.method == "POST":
+        # get url that the user has entered
+        try:
+            di = request.form.to_dict()
+            nq = Question(file_name = di['file_name'], file_url = di['file_url'], description = di['description'] )
+            db.session.add(nq)
+            db.session.commit()
+        except:
+            print( 'error' )
+            errors.append(
+                "Unable to get URL. Please make sure it's valid and try again."
+            )
+
+    resp = make_response("123")
+    # CORS
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+
+    return resp
+
+@app.route('/help/resource/<path:res_name>', methods=['GET']) # arg from url will redirects to template
+def help_resource(res_name):
+    try:
+        resp = make_response( render_template( '/resource/' + res_name.lower() + '.html', args=request.args.to_dict() ) )        
+    except:
+        resp = make_response("<pre>No special resource is exists!</pre>")
+    # CORS
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+
+    return resp
 
 if __name__ == '__main__':
 

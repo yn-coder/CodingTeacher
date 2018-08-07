@@ -144,7 +144,14 @@ def info():
 
 @app.route("/t/")
 def t():
-    return '0000000010'
+    return '0000000011'
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    flash("You have logged out")
+    return redirect(url_for("index"))
 
 if __name__ == '__main__':
 

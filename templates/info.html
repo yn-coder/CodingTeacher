@@ -27,7 +27,7 @@
 <td>{{oa.created_at}}</td>
 <td>{{oa.user_id}}</td>
 <td>{{oa.provider_user_id}}</td>
-<td>{{oa.token}}</td>
+<td>{{oa.token|tojson(indent=2)}}</td>
 </tr>
 {%endfor%}
 </table>

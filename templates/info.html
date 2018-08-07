@@ -1,10 +1,11 @@
 {{users}}
 
 <br>
-
+<ul>
 {%for u in users %}
-{{u.id}}{{u.name}}
+<li>{{u.id}}{{u.name}}{{u.email}}</li>
 {%endfor%}
+</ul>
 <hr>
 
 {{oauths}}

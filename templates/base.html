@@ -31,7 +31,7 @@
           <li><a href="/help/q/">Questions</a></li>
 
           {% if current_user.is_authenticated %}
-          <li><a href="/profile/">{{current_user.name}} profile</a></li>!
+          <li><a href="/profile/">{{current_user.name}} profile</a></li>
 
           {% else %}
           <li><a href="{{ url_for("azure.login") }}">Log in</a></li>

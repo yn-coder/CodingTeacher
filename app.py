@@ -63,8 +63,9 @@ def load_user(user_id):
 
 db.init_app(app)
 login_manager.init_app(app)
-    
-blueprint.backend = SQLAlchemyBackend(OAuth, db.session, user=current_user)
+
+# https://stackoverflow.com/questions/47643448/flask-dance-cannot-get-oauth-token-without-an-associated-user    
+blueprint.backend = SQLAlchemyBackend(OAuth, db.session, user=current_user, user_required=False )
 
 # create/login local user on successful OAuth login
 @oauth_authorized.connect_via(blueprint)

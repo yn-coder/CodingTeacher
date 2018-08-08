@@ -4,11 +4,16 @@
 
 <h2>Users</h2>
 
-<ul>
+<table>
 {%for u in users%}
-<li>{{u.id}}, {{u.name}}, {{u.auth_provider}}, {{u.auth_id}}</li>
+<tr>
+<td>{{u.id}}</td>
+<td>{{u.name}}</td>
+<td>{{u.auth_provider}}</td>
+<td>{{u.auth_id}}</td>
+</tr>
 {%endfor%}
-</ul>
+</table>
 
 {% endblock %} 
 

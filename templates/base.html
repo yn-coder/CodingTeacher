@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="https://unpkg.com/papercss@1.5.1/dist/paper.min.css">
   <meta name="description" content="Simple Azure navigator.">
   <title>Simple Azure navigator.</title>
+  <script src="https://swc.cdn.skype.com/sdk/v1/sdk.min.js"></script>
 </head>
 <body>
 <nav class="border fixed split-nav">
@@ -46,7 +47,9 @@
 
 <hr>
 <p>v 0020 at 07_08_2018</p>
-	  {{current_user}}<br>{{session}}
+<span class="skype-button rounded" data-contact-id="yn_common"></span>
+<hr>
+<br>{{current_user}}<br>{{session}}
   </div>
 </body>
 </html>

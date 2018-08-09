@@ -169,7 +169,11 @@ def users():
 
 @app.route('/profile/')
 def profile():
-    return render_template('profile.html' )
+    if azure.authorized:
+        return render_template('profile.html' )
+    else:
+        flash("You are not logged.", category="error")
+        return redirect(url_for("index"))
 
 @app.route("/logout")
 def logout():

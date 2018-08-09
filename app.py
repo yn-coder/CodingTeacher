@@ -183,7 +183,6 @@ def q():
 
 @app.route('/help/post_new_q/', methods=['POST'])
 def post_new_q():
-    errors = []
     results = {}
 
     if request.method == "POST":
@@ -195,9 +194,6 @@ def post_new_q():
             db.session.commit()
         except:
             print( 'error' )
-            errors.append(
-                "Unable to get URL. Please make sure it's valid and try again."
-            )
 
     resp = make_response("123")
     # CORS

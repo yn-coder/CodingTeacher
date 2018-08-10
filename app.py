@@ -47,6 +47,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=True)
     email = db.Column(db.String(255), nullable=True)
+    join_dt = db.Column( db.DateTime, nullable=True, default = datetime.utcnow )
 
 class OAuth(OAuthConsumerMixin, db.Model):
     provider_user_id = db.Column(db.String(256), unique=True)

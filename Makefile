@@ -3,3 +3,6 @@ help:
 
 test:
 	pytest
+
+migrate:
+	flask db migrate

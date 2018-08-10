@@ -5,10 +5,18 @@
 <h2>Users</h2>
 
 <table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Join dt</th>
+</tr>
+</thead>
 {%for u in users%}
 <tr>
 <td>{{u.id}}</td>
 <td>{{u.name}}</td>
+<td>{{u.join_dt}}</td>
 </tr>
 {%endfor%}
 </table>

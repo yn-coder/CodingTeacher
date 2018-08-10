@@ -6,3 +6,5 @@ test:
 
 migrate:
 	flask db migrate
+upgrade_db:
+	flask db migrate

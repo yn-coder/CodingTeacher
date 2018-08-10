@@ -10,6 +10,7 @@ from flask_dance.consumer import oauth_authorized, oauth_error
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm.exc import NoResultFound
 from datetime import datetime
+from flask_migrate import Migrate
 
 from flask_login import (
     LoginManager, UserMixin, current_user,
@@ -40,6 +41,7 @@ else:
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)

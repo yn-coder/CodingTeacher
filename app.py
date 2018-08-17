@@ -301,4 +301,9 @@ if __name__ == '__main__':
     thread = Thread( target=get_and_verify_token )
     thread.start()
 
+
+    l = db_log( description = 'restart' )
+    db.session.add(l)
+    db.session.commit()
+
     app.run(host='0.0.0.0', port=port, debug=True)

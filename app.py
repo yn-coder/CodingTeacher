@@ -165,7 +165,7 @@ def p():
 
 @app.route("/info/")
 def info():
-    return render_template('info.html', users = User.query.all(), oauths = OAuth.query.all() )
+    return render_template('info.html', users = User.query.all(), oauths = OAuth.query.all(), db_log=db_log.query.all() )
 
 @app.route('/help/')
 def help():

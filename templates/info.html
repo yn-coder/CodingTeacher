@@ -1,6 +1,5 @@
+<h1>Users</h1>
 {{users}}
-
-<br>
 <ul>
 {%for u in users %}
 <li>{{u.id}}{{u.name}}{{u.email}}</li>
@@ -8,6 +7,7 @@
 </ul>
 <hr>
 
+<h1>oauths</h1>
 {{oauths}}
 
 <br>
@@ -32,6 +32,8 @@
 {%endfor%}
 </table>
 
+<h1>DB log</h1>
+{{db_log}}
 <hr>
 
 {% if current_user.is_authenticated %}

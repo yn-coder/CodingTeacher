@@ -165,7 +165,7 @@ def p():
 
 @app.route("/info/")
 def info():
-    return render_template('info.html', users = User.query.all(), oauths = OAuth.query.all() )
+    return render_template('info.html', users = User.query.all(), oauths = OAuth.query.all(), db_log=db_log.query.all() )
 
 @app.route('/help/')
 def help():
@@ -300,5 +300,10 @@ if __name__ == '__main__':
 
     thread = Thread( target=get_and_verify_token )
     thread.start()
+
+
+    l = db_log( description = 'restart' )
+    db.session.add(l)
+    db.session.commit()
 
     app.run(host='0.0.0.0', port=port, debug=True)

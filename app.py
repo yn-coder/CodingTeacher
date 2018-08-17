@@ -70,6 +70,11 @@ class db_log(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(255), nullable=True)
     dt = db.Column( db.DateTime, nullable=False, default = datetime.utcnow )
+    
+def add_log_rec( arg_m ):    
+    l = db_log( description = arg_m )
+    db.session.add(l)
+    db.session.commit()
 
 if app.config['SQLALCHEMY_DATABASE_URI'] == test_sql_url:
     db.create_all()
@@ -271,6 +276,7 @@ def get_and_verify_token():
 
 @app.route('/bot/', methods=['GET', 'POST'])
 def handle():
+    add_log_rec( 'bot' )
     data = request.get_json()
     talk_id = data['conversation']['id']
     msg = {
@@ -302,8 +308,6 @@ if __name__ == '__main__':
     thread.start()
 
 
-    l = db_log( description = 'restart' )
-    db.session.add(l)
-    db.session.commit()
+    add_log_rec( 'restart' )
 
     app.run(host='0.0.0.0', port=port, debug=True)

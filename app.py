@@ -66,6 +66,11 @@ class Question(db.Model):
     def __repr__(self):
         return '<file_name %r>' % self.file_name
 
+class db_log(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    description = db.Column(db.String(255), nullable=True)
+    dt = db.Column( db.DateTime, nullable=False, default = datetime.utcnow )
+
 if app.config['SQLALCHEMY_DATABASE_URI'] == test_sql_url:
     db.create_all()
 
@@ -219,8 +224,8 @@ def help_resource(res_name):
 
     return resp
 
-    
-    
+
+
 
 
 
@@ -284,15 +289,15 @@ def handle():
                'content-type': 'application/json; charset=utf8'}
     r = requests.post(url, headers=headers, data=json.dumps(msg))
     return 'success'
- 
-    
-    
-    
-    
+
+
+
+
+
 if __name__ == '__main__':
 
     port = int(os.environ.get('PORT', 5000))
-    
+
     thread = Thread( target=get_and_verify_token )
     thread.start()
 

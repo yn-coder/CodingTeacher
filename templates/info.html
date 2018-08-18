@@ -34,6 +34,22 @@
 
 <h1>DB log</h1>
 {{db_log}}
+
+<table border="1">
+<tr>
+<th>id</th>
+<th>description</th>
+<th>dt</th>
+</tr>
+{% for l in db_log %}
+<tr>
+<td>{{l.id}}</td>
+<td>{{l.description}}</td>
+<td>{{l.dt}}</td>
+</tr>
+{%endfor%}
+</table>
+
 <hr>
 
 {% if current_user.is_authenticated %}

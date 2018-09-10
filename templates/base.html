@@ -8,6 +8,17 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.0/mini-default.min.css">
   <meta name="description" content="Simple Azure navigator.">
   <title>Simple Azure navigator.</title>
+  
+<script type="text/javascript">
+    (function(d, m){
+      var o = {"appId":"205ca3782d79941735839d35d84a4c774","conversationTitle":"Yuri","email":""};
+      var s = document.createElement("script"); s.type = "text/javascript"; s.async = true;
+      s.src = "https://api.kommunicate.io/kommunicate.app";
+      var h = document.getElementsByTagName("head")[0]; h.appendChild(s);
+      window.kommunicate = m; m._globals = o;
+    })(document, window.kommunicate || {});
+</script>  
+  
 </head>
 <body>
 
@@ -38,18 +49,6 @@
 <footer>
 
 <p>v 0028 at 26_08_2018</p>
-
-
-<span class="skype-button rounded" data-bot-id="f906397c-38fc-4c57-a06a-d39e67ca6ba4"></span>
-<script src="https://swc.cdn.skype.com/sdk/v1/sdk.min.js"></script>
-<hr>
-
-<iframe
-    allow="microphone;"
-    width="350"
-    height="430"
-    src="https://console.dialogflow.com/api-client/demo/embedded/7ef6f385-f92e-455d-9896-45f99c4c08a4">
-</iframe>
 
 <hr>
 <br>{{current_user}}<br>{{session}}

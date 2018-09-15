@@ -230,7 +230,9 @@ def help_resource(res_name):
     return resp
 
 
-
+@app.route('/help/get_game_iframe/', methods=['GET'])
+def help_get_game_iframe():
+    return render_template('game_iframe.html' ) 
 
 
 

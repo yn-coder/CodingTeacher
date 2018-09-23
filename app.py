@@ -62,6 +62,9 @@ class Question(db.Model):
     dt = db.Column( db.DateTime, nullable=False, default = datetime.utcnow )
     user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=True)
     user = db.relationship(User)
+    cell_code = db.Column(db.Text, nullable=True)
+    cell_output = db.Column(db.Text, nullable=True)
+    answer = db.Column(db.Text, nullable=True)
 
     def __repr__(self):
         return '<file_name %r>' % self.file_name
@@ -206,16 +209,19 @@ def post_new_q():
         # get url that the user has entered
         try:
             di = request.form.to_dict()
-            nq = Question(file_name = di['file_name'], file_url = di['file_url'], description = di['description'] )
+            #for o in di:
+            #    print(o, di[o])
+            answer = 'Your code is great!'
+            nq = Question(file_name = di['file_name'], file_url = di['file_url'], description = di['description'], cell_code = di['cell_code'], cell_output = di['cell_output'], answer = answer )
             db.session.add(nq)
             db.session.commit()
         except:
             print( 'error' )
 
-    resp = make_response("123")
+    resp = make_response( "123" )
     # CORS
     resp.headers['Access-Control-Allow-Origin'] = '*'
-
+    #print(resp)
     return resp
 
 @app.route('/help/resource/<path:res_name>', methods=['GET']) # arg from url will redirects to template

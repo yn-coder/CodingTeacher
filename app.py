@@ -1,6 +1,6 @@
 import sys
 
-from flask import Flask, redirect, url_for, flash, render_template, make_response, request
+from flask import Flask, redirect, url_for, flash, render_template, make_response, request, jsonify
 from werkzeug.contrib.fixers import ProxyFix
 
 from flask_dance.contrib.azure import make_azure_blueprint, azure
@@ -203,8 +203,7 @@ def q():
 
 @app.route('/help/post_new_q/', methods=['POST'])
 def post_new_q():
-    results = {}
-
+    answer = ""
     if request.method == "POST":
         # get url that the user has entered
         try:
@@ -217,11 +216,12 @@ def post_new_q():
             db.session.commit()
         except:
             print( 'error' )
-
-    resp = make_response( "123" )
+    
+    d = { "msg" : answer }
+    resp = make_response( jsonify( d ) )
     # CORS
     resp.headers['Access-Control-Allow-Origin'] = '*'
-    #print(resp)
+    print(resp)
     return resp
 
 @app.route('/help/resource/<path:res_name>', methods=['GET']) # arg from url will redirects to template

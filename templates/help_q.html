@@ -11,6 +11,9 @@
 <th>Question</th>
 <th>File name</th>
 <th>File url</th>
+<th>Cell code</th>
+<th>Cell output</th>
+<th>Answer</th>
 </tr>
 {% for q in questions %}
 <tr>
@@ -18,6 +21,9 @@
 <td>{{q.description}}</td>
 <td>{{q.file_name}}</td>
 <td>{% if q.file_url %}<a href="{{q.file_url}}">{{q.file_url}}</a>{% endif %}</td>
+<td>{{q.cell_code}}</td>
+<td>{{q.cell_output}}</td>
+<td>{{q.answer}}</td>
 </tr>
 {% endfor%}
 </table>

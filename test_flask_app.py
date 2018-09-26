@@ -67,4 +67,4 @@ def test_calc_answer_empty(client):
 
 def test_calc_answer_python_error(client):
     from app import calc_answer
-    assert calc_answer( '', '[{"ename":"NameError", "evalue":"name ''j'' is not defined","output_type":"error","traceback": "" }]' ) == 'You have a NameError error in your code!'
+    assert calc_answer( '', '[{"ename":"NameError", "evalue":"name ''j'' is not defined","output_type":"error","traceback": "" }]' ) == 'You have a <a href="https://duckduckgo.com/?q=python+NameError&t=ffab&ia=qa" target="_blank">NameError</a> error in your code!'

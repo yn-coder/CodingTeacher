@@ -61,7 +61,7 @@ def test_get_empty_user_list(client):
     from app import User
     assert User.query.count() == 0
 
-from app import calc_answer
+#from app import calc_answer
 def test_calc_answer_empty(client):
     assert calc_answer( '', '' ) == 'Can''t parse the question!'
 

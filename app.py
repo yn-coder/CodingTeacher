@@ -17,6 +17,8 @@ from flask_login import (
     login_required, login_user, logout_user
 )
 
+import json
+
 app = Flask(__name__)
 
 app.wsgi_app = ProxyFix(app.wsgi_app)
@@ -73,8 +75,8 @@ class db_log(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     description = db.Column(db.String(255), nullable=True)
     dt = db.Column( db.DateTime, nullable=False, default = datetime.utcnow )
-    
-def add_log_rec( arg_m ):    
+
+def add_log_rec( arg_m ):
     l = db_log( description = arg_m )
     db.session.add(l)
     db.session.commit()
@@ -201,6 +203,17 @@ def logout():
 def q():
     return render_template('help_q.html', questions = Question.query.all() )
 
+def calc_answer(cell_code, cell_output):
+    try:
+        cell_output_json = json.loads(cell_output)
+        if cell_output_json[0]['output_type'] == 'error':
+            return 'You have a ' + cell_output_json[0]['ename'] + ' error in your code!'
+        else:
+            return 'I don''t know!'
+
+    except:
+        return 'Can''t parse the question!'
+
 @app.route('/help/post_new_q/', methods=['POST'])
 def post_new_q():
     answer = ""
@@ -208,15 +221,15 @@ def post_new_q():
         # get url that the user has entered
         try:
             di = request.form.to_dict()
-            #for o in di:
-            #    print(o, di[o])
-            answer = 'Your code is great!'
-            nq = Question(file_name = di['file_name'], file_url = di['file_url'], description = di['description'], cell_code = di['cell_code'], cell_output = di['cell_output'], answer = answer )
+            cell_code = di['cell_code']
+            cell_output = di['cell_output']
+            answer = calc_answer(cell_code, cell_output)
+            nq = Question(file_name = di['file_name'], file_url = di['file_url'], description = di['description'], cell_code = cell_code, cell_output = cell_output, answer = answer )
             db.session.add(nq)
             db.session.commit()
         except:
             print( 'error' )
-    
+
     d = { "msg" : answer }
     resp = make_response( jsonify( d ) )
     # CORS
@@ -238,7 +251,7 @@ def help_resource(res_name):
 
 @app.route('/help/get_game_iframe/', methods=['GET'])
 def help_get_game_iframe():
-    return render_template('game_iframe.html' ) 
+    return render_template('game_iframe.html' )
 
 
 

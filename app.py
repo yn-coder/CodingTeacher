@@ -207,7 +207,8 @@ def calc_answer(cell_code, cell_output):
     try:
         cell_output_json = json.loads(cell_output)
         if cell_output_json[0]['output_type'] == 'error':
-            return 'You have a ' + cell_output_json[0]['ename'] + ' error in your code!'
+            error_name = cell_output_json[0]['ename']
+            return 'You have a <a href="https://duckduckgo.com/?q=python+' + error_name + '&t=ffab&ia=qa" target="_blank">' + error_name + '</a> error in your code!'
         else:
             return 'I don''t know!'
 

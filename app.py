@@ -203,6 +203,10 @@ def logout():
 def q():
     return render_template('help_q.html', questions = Question.query.all() )
 
+@app.route('/help/q/view/<q_id>/', methods=['GET'])
+def q_view(q_id):
+    return render_template('help_q_page.html', question = Question.query.get(q_id) )
+
 def calc_answer(cell_code, cell_output):
     try:
         cell_output_json = json.loads(cell_output)

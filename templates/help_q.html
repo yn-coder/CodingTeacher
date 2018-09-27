@@ -5,21 +5,29 @@
 
 <h2>On-line help for Azure Notebooks</h2>
 
-<table>
+<table class="hoverable">
+<thead>
 <tr>
+<th>#</th>
 <th>Date time</th>
 <th>Question</th>
 <th>File name</th>
 <th>File url</th>
+<th>Cell code</th>
 </tr>
+</thead>
+<tbody>
 {% for q in questions %}
 <tr>
-<td>{{q.dt.strftime('%Y-%m-%d %H:%M:%S')}}</td>
-<td>{{q.description}}</td>
-<td>{{q.file_name}}</td>
-<td>{% if q.file_url %}<a href="{{q.file_url}}">{{q.file_url}}</a>{% endif %}</td>
+<td data-label="#"><a href="/help/q/view/{{q.id}}">{{q.id}}</a></td>
+<td data-label="Date time">{{q.dt.strftime('%Y-%m-%d %H:%M:%S')}}</td>
+<td data-label="Question">{{q.description}}</td>
+<td data-label="File name">{{q.file_name}}</td>
+<td data-label="File url">{% if q.file_url %}<a href="{{q.file_url}}">{{q.file_url}}</a>{% endif %}</td>
+<td data-label="Cell code"><code>{{q.cell_code}}</code></td>
 </tr>
 {% endfor%}
+</tbody>
 </table>
 
 {% endblock %} 

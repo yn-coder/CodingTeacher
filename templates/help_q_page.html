@@ -1,0 +1,23 @@
+{# index.html #}
+{% extends "base.html" %}
+{% block body %}
+
+{% if question %}
+<div class="row">
+<div class="card fluid">
+  <div class="section">Date time : {{question.dt.strftime('%Y-%m-%d %H:%M:%S')}}</div>
+  <div class="section">Question : {{question.description}}</div>
+  <div class="section">File name :{{question.file_name}}</div>
+  <div class="section">File url : {% if question.file_url %}<a href="{{question.file_url}}">{{question.file_url}}</a>{% endif %}</div>
+  <div class="section">Cell code : <code>{{question.cell_code}}</code></div>
+  <div class="section">Cell output : <code>{{question.cell_output}}</code></div>
+  <div class="section">Answer : {{question.answer}}</div>
+</div>
+</div>
+
+{% else %}
+<p>No such question found!</p>
+{% endif %}
+
+
+{% endblock %}

@@ -61,10 +61,14 @@ def test_get_empty_user_list(client):
     from app import User
     assert User.query.count() == 0
 
-def test_calc_answer_empty(client):
+def test_calc_answer_empty():
     from app import calc_answer
     assert calc_answer( '', '' ) == 'Can''t parse the question!'
 
+def test_calc_answer_python_cant_parse(client):
+    rv = client.post('/help/post_new_q/', data=dict( cell_code = '', cell_output = '' ) )
+    assert b'parse' in rv.data
+
 def test_calc_answer_python_error(client):
-    from app import calc_answer
-    assert calc_answer( '', '[{"ename":"NameError", "evalue":"name ''j'' is not defined","output_type":"error","traceback": "" }]' ) == 'You have a <a href="https://duckduckgo.com/?q=python+NameError&t=ffab&ia=qa" target="_blank">NameError</a> error in your code!'
+    rv = client.post('/help/post_new_q/', data=dict( cell_code = '', cell_output = '[{"ename":"NameError", "evalue":"name ''j'' is not defined","output_type":"error","traceback": "" }]' ) )
+    assert b'Read about NameError' in rv.data

@@ -1,12 +1,15 @@
 import os
 
 import pytest
+import json
+
+from app import db, Question
 
 @pytest.fixture
 def client():
     os.environ['DATABASE_URL' ] = 'sqlite:///../test_ct_db.db'
 
-    from app import app, db
+    from app import app
 
     app.config['TESTING'] = True
     client = app.test_client()
@@ -61,14 +64,24 @@ def test_get_empty_user_list(client):
     from app import User
     assert User.query.count() == 0
 
+def test_try_save_question2db(client):
+    nq = Question(file_name = 'test_file_name', file_url = '2', description = '3', cell_code = '4', cell_output = '5' )
+    db.session.add(nq)
+    db.session.commit()
+    assert nq.id > 0
+
 def test_calc_answer_empty():
     from app import calc_answer
-    assert calc_answer( '', '' ) == 'Can''t parse the question!'
+    assert calc_answer( '', '', 0, '' ) == 'Can''t parse the question!'
 
 def test_calc_answer_python_cant_parse(client):
-    rv = client.post('/help/post_new_q/', data=dict( cell_code = '', cell_output = '' ) )
-    assert b'parse' in rv.data
+    d = dict( file_name = 'file name', file_url = '-', description = '-', cell_code = '-', cell_output = '-' )
+    rv = client.post('/help/post_new_q/', data = d )
+    res_msg = json.loads(rv.data)
+    assert 'parse' in res_msg['msg']
 
-def test_calc_answer_python_error(client):
-    rv = client.post('/help/post_new_q/', data=dict( cell_code = '', cell_output = '[{"ename":"NameError", "evalue":"name ''j'' is not defined","output_type":"error","traceback": "" }]' ) )
-    assert b'Read about NameError' in rv.data
+def test_calc_answer_python_NameError(client):
+    d = data=dict( file_name = 'file name', file_url = 'test_url', description = '-', cell_code = '', cell_output = '[{"ename":"NameError", "evalue":"name ''j'' is not defined","output_type":"error","traceback": "" }]' )
+    rv = client.post('/help/post_new_q/', data = d )
+    res_msg = json.loads(rv.data)
+    assert 'Read about NameError' in res_msg['msg']

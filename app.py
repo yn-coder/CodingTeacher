@@ -214,7 +214,7 @@ def calc_answer(cell_code, cell_output, id, url_root):
             error_name = cell_output_json[0]['ename']
             return render_template( '/answers/python_error.html', ename = error_name, id = id, url_root = url_root )
         else:
-            return 'I don''t know!'
+            return 'I don''t know! May be your code is working well?'
 
     except:
         return 'Can''t parse the question!'

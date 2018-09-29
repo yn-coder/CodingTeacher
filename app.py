@@ -207,12 +207,12 @@ def q():
 def q_view(q_id):
     return render_template('help_q_page.html', question = Question.query.get(q_id) )
 
-def calc_answer(cell_code, cell_output):
+def calc_answer(cell_code, cell_output, id, url_root):
     try:
         cell_output_json = json.loads(cell_output)
         if cell_output_json[0]['output_type'] == 'error':
             error_name = cell_output_json[0]['ename']
-            return render_template( '/answers/python_error.html', ename = error_name )
+            return render_template( '/answers/python_error.html', ename = error_name, id = id, url_root = url_root )
         else:
             return 'I don''t know!'
 
@@ -228,12 +228,15 @@ def post_new_q():
             di = request.form.to_dict()
             cell_code = di['cell_code']
             cell_output = di['cell_output']
-            answer = calc_answer(cell_code, cell_output)
-            nq = Question(file_name = di['file_name'], file_url = di['file_url'], description = di['description'], cell_code = cell_code, cell_output = cell_output, answer = answer )
+            nq = Question(file_name = di['file_name'], file_url = di['file_url'], description = di['description'], cell_code = cell_code, cell_output = cell_output )
             db.session.add(nq)
+            db.session.commit()
+            answer = calc_answer(cell_code, cell_output, nq.id, request.url_root )
+            nq.answer = answer
             db.session.commit()
         except:
             print( 'error' )
+            answer = 'error'
 
     d = { "msg" : answer }
     resp = make_response( jsonify( d ) )

@@ -153,16 +153,6 @@ def azure_logged_in(blueprint, token):
 def index():
     return render_template('index.html' )
 
-    # if not azure.authorized:
-        # return redirect(url_for("azure.login"))
-
-    # try:
-        # resp = azure.get("/v1.0/me")
-        # assert resp.ok
-        # return "You are {name} and {mail} on Azure AD".format(name=resp.json()["displayName"] ,mail=resp.json()["userPrincipalName"])
-    # except (InvalidGrantError, TokenExpiredError) as e:  # or maybe any OAuth2Error
-        # return redirect(url_for("azure.login"))
-
 @app.route("/p/")
 def p():
     if not azure.authorized:
@@ -182,6 +172,7 @@ def help():
 def users():
     return render_template('users.html', users = User.query.all() )
 
+# show user profile for current auth users
 @app.route('/profile/')
 def profile():
     if azure.authorized:
@@ -190,20 +181,24 @@ def profile():
         flash("You are not logged.", category="error")
         return redirect(url_for("index"))
 
+# sign out
 @app.route("/logout")
 def logout():
     logout_user()
     flash("You have logged out")
     return redirect(url_for("index"))
 
+# show list of questions
 @app.route('/help/q/', methods=['GET'])
 def q():
     return render_template('help_q.html', questions = Question.query.all() )
 
+# show one question
 @app.route('/help/q/view/<q_id>/', methods=['GET'])
 def q_view(q_id):
     return render_template('help_q_page.html', question = Question.query.get(q_id) )
 
+# calculate the answer about Jupyter cell
 def calc_answer(cell_code, cell_output, id, url_root):
     try:
         cell_output_json = json.loads(cell_output)
@@ -216,6 +211,7 @@ def calc_answer(cell_code, cell_output, id, url_root):
     except:
         return 'Can''t parse the question!'
 
+# post new question API
 @app.route('/help/post_new_q/', methods=['POST'])
 def post_new_q():
     answer = ""
@@ -242,6 +238,7 @@ def post_new_q():
     print(resp)
     return resp
 
+# Show help page
 @app.route('/help/resource/<path:res_name>', methods=['GET']) # arg from url will redirects to template
 def help_resource(res_name):
     try:
@@ -253,7 +250,7 @@ def help_resource(res_name):
 
     return resp
 
-
+# js game frame
 @app.route('/help/get_game_iframe/', methods=['GET'])
 def help_get_game_iframe():
     return render_template('game_iframe.html' )

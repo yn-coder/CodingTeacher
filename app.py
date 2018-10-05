@@ -34,7 +34,7 @@ app.register_blueprint(blueprint, url_prefix="/login")
 import os
 
 DATABASE_URL = os.environ.get('DATABASE_URL')
-test_sql_url = 'sqlite:////test.db'
+test_sql_url = 'sqlite:////test_sqlite.db'
 
 if DATABASE_URL:
     app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL

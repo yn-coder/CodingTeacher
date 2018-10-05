@@ -81,9 +81,6 @@ def add_log_rec( arg_m ):
     db.session.add(l)
     db.session.commit()
 
-if app.config['SQLALCHEMY_DATABASE_URI'] == test_sql_url:
-    db.create_all()
-
 # setup login manager
 login_manager = LoginManager()
 login_manager.login_view = 'azure.login'

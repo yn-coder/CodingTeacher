@@ -7,7 +7,7 @@ from app import db, Question
 
 @pytest.fixture
 def client():
-    os.environ['DATABASE_URL' ] = 'sqlite:////test_sqlite.db'
+    os.environ['DATABASE_URL' ] = 'sqlite:///../test_ct_db2.db'
 
     from app import app
 

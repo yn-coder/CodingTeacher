@@ -1,3 +1,7 @@
+""" Web application with Azure Windows.Live OAuth and Jupyter oriented help system.
+    See https://github.com/yn-coder/CodingTeacher
+
+ """
 import sys
 
 from flask import Flask, redirect, url_for, flash, render_template, make_response, request, jsonify
@@ -46,17 +50,20 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 class User(db.Model, UserMixin):
+    """User database model"""
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255), nullable=True)
     email = db.Column(db.String(255), nullable=True)
     join_dt = db.Column( db.DateTime, nullable=True, default = datetime.utcnow )
 
 class OAuth(OAuthConsumerMixin, db.Model):
+    """Store authentificated users data """
     provider_user_id = db.Column(db.String(256), unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey(User.id))
     user = db.relationship(User)
 
 class Question(db.Model):
+    """Store questions and answers"""
     id = db.Column(db.Integer, primary_key=True)
     file_name = db.Column(db.String(255), nullable=False)
     file_url = db.Column(db.String(255), nullable=False)
@@ -87,6 +94,7 @@ login_manager.login_view = 'azure.login'
 
 @login_manager.user_loader
 def load_user(user_id):
+    """Get User object by OAuth id"""
     return User.query.get(int(user_id))
 
 db.init_app(app)
@@ -98,6 +106,7 @@ blueprint.backend = SQLAlchemyBackend(OAuth, db.session, user=current_user, user
 # create/login local user on successful OAuth login
 @oauth_authorized.connect_via(blueprint)
 def azure_logged_in(blueprint, token):
+    """Login with Azure prompt"""
     if not token:
         flash("Failed to log in with Azure.", category="error")
         return False
@@ -151,6 +160,7 @@ def azure_logged_in(blueprint, token):
 
 @app.route("/")
 def index():
+    """Site index home page"""
     return render_template('index.html' )
 
 @app.route("/p/")
@@ -166,40 +176,43 @@ def info():
 
 @app.route('/help/')
 def help():
+    """Help index"""
     return render_template('help.html' )
 
 @app.route('/users/')
 def users():
+    """List of users"""
     return render_template('users.html', users = User.query.all() )
 
 # show user profile for current auth users
 @app.route('/profile/')
 def profile():
+    """Profile page for signed user"""
     if azure.authorized:
         return render_template('profile.html' )
     else:
         flash("You are not logged.", category="error")
         return redirect(url_for("index"))
 
-# sign out
 @app.route("/logout")
 def logout():
+    """Log out"""
     logout_user()
     flash("You have logged out")
     return redirect(url_for("index"))
 
-# show list of questions
 @app.route('/help/q/', methods=['GET'])
 def q():
+    """Show list of questions"""
     return render_template('help_q.html', questions = Question.query.all() )
 
-# show one question
 @app.route('/help/q/view/<q_id>/', methods=['GET'])
 def q_view(q_id):
+    """Show one question page"""
     return render_template('help_q_page.html', question = Question.query.get(q_id) )
 
-# calculate the answer about Jupyter cell
 def calc_answer(cell_code, cell_output, id, url_root):
+    """ calculate the answer about Jupyter cell"""
     try:
         cell_output_json = json.loads(cell_output)
         if cell_output_json[0]['output_type'] == 'error':
@@ -211,9 +224,9 @@ def calc_answer(cell_code, cell_output, id, url_root):
     except:
         return 'Can''t parse the question!'
 
-# post new question API
 @app.route('/help/post_new_q/', methods=['POST'])
 def post_new_q():
+    """ API for posting new question"""
     answer = ""
     if request.method == "POST":
         # get url that the user has entered
@@ -238,9 +251,9 @@ def post_new_q():
     print(resp)
     return resp
 
-# Show help page
 @app.route('/help/resource/<path:res_name>', methods=['GET']) # arg from url will redirects to template
 def help_resource(res_name):
+    """Show help page"""
     try:
         resp = make_response( render_template( '/resource/' + res_name.lower() + '.html', args=request.args.to_dict() ) )
     except:
@@ -257,7 +270,7 @@ def help_get_game_iframe():
 
 
 if __name__ == '__main__':
-
+    """Main Flask run routing"""
     port = int(os.environ.get('PORT', 5000))
 
     add_log_rec( 'restart' )

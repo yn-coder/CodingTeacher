@@ -8,7 +8,12 @@ script:
 install:
   - pip install -r requirements.txt
   - pip install pytest-cov
+  - pip install coveralls
 
 # command to run tests
 script:
   py.test --cov=app
+
+after_success:
+  - coverage report
+  - coveralls

@@ -76,7 +76,7 @@ class Question(db.Model):
     answer = db.Column(db.Text, nullable=True)
 
     def __repr__(self):
-        return '<file_name %r>' % self.file_name
+        return 'description %s' % self.description
 
 class db_log(db.Model):
     id = db.Column(db.Integer, primary_key=True)

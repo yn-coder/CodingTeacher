@@ -3,7 +3,8 @@ help:
 
 test:
 	pytest
-
+cov:
+	py.test --cov=app
 migrate:
 	flask db migrate
 upgrade_db:

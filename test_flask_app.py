@@ -69,6 +69,7 @@ def test_try_save_question2db(client):
     db.session.add(nq)
     db.session.commit()
     assert nq.id > 0
+    assert nq.__repr__() == 'description 3'
 
 def test_calc_answer_empty():
     from app import calc_answer

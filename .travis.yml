@@ -11,8 +11,8 @@ install:
   - pip install pytest-cov
   - pip install coveralls
 
-before_script:
-  flake8 app.py
+#before_script:
+#  flake8 app.py
 
 # command to run tests
 script:

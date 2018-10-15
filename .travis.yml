@@ -12,7 +12,7 @@ install:
   - pip install coveralls
 
 before_script:
-  flake8 app.py --select W
+  flake8 app.py --select W,E722
 
 # command to run tests
 script:

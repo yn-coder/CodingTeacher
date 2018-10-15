@@ -2,7 +2,6 @@
     See https://github.com/yn-coder/CodingTeacher
 
  """
-import sys
 
 from flask import Flask, redirect, url_for, flash, render_template, make_response, request, jsonify
 from werkzeug.contrib.fixers import ProxyFix
@@ -49,6 +48,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
+
 class User(db.Model, UserMixin):
     """User database model"""
     id = db.Column(db.Integer, primary_key=True)
@@ -56,11 +56,13 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(255), nullable=True)
     join_dt = db.Column( db.DateTime, nullable=True, default = datetime.utcnow )
 
+
 class OAuth(OAuthConsumerMixin, db.Model):
     """Store authentificated users data """
     provider_user_id = db.Column(db.String(256), unique=True)
     user_id = db.Column(db.Integer, db.ForeignKey(User.id))
     user = db.relationship(User)
+
 
 class Question(db.Model):
     """Store questions and answers"""
